@@ -1,28 +1,30 @@
 import "./App.css";
-import requests from "./Request";
-import Row from "./Row";
-import Banner from "./Banner";
-import Nav from "./Nav"
+import Login from "./screens/Login";
+import { UserContext } from "./screens/contexts/userContext";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import LandingLayout from "./screens/LandingLayout";
+import Registration from "./screens/Registeration";
+
+
+
 
 function App() {
+  const isLoggedIn = window.localStorage.getItem("loggedIn");
+
   return (
-    <div className="App">
-      {/* Na vbar */}
-        <Nav />
-      {/* Banner */}
-      <Banner />
-      <Row
-        title=" NETFLIX ORIGINALS"
-        fetchUrl={requests.fetchNetflixOriginals} isLargeRow
-      />
-      <Row title="Trending Now" fetchUrl={requests.fetchTrendingNow} />
-      <Row title="Top Rated" fetchUrl={requests.fetchTopRated} />
-      <Row title="Action Movies" fetchUrl={requests.fetchActionMovies} />
-      <Row title="Comedy Movies" fetchUrl={requests.fetchComedyMovies} />
-      <Row title="Horror Movies" fetchUrl={requests.fetchHorrorMovies} />
-      <Row title="Romance Movies" fetchUrl={requests.fetchRomanceMovies} />
-      <Row title="Documentaries" fetchUrl={requests.fetchDocumantaries} />
-    </div>
+<Router>
+      <UserContext.Provider value="he;llo i am contet ">
+        <Routes>
+          <Route exact path="/admin-page" element={<LandingLayout />} />
+          <Route exact path="/register" element={<Registration />} />
+          <Route
+            exact
+            path="/"
+            element={isLoggedIn  === "true" ? <LandingLayout /> : <Login />}
+            />
+            </Routes>
+      </UserContext.Provider>
+    </Router>
   );
 }
 
